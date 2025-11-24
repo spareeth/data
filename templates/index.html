@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catalog Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Catalog Chatbot</h1>
+        <p>Ask questions about the sample CSV catalog. Responses are grounded in the provided data.</p>
+      </header>
+
+      <section class="chat-window">
+        {% if history %}
+          {% for exchange in history %}
+            <div class="message user">{{ exchange.user }}</div>
+            <div class="message bot">{{ exchange.bot }}</div>
+          {% endfor %}
+        {% else %}
+          <div class="placeholder">Start the conversation by asking about a product.</div>
+        {% endif %}
+      </section>
+
+      <form action="{{ url_for('chat') }}" method="post" class="chat-form">
+        <label for="message" class="sr-only">Message</label>
+        <input
+          type="text"
+          id="message"
+          name="message"
+          placeholder="e.g., Do you have a backpack for day hikes?"
+          required
+          autofocus
+        />
+        <button type="submit">Send</button>
+      </form>
+
+      <section class="instructions">
+        <h2>Deploying</h2>
+        <ol>
+          <li>Set the <code>OPENAI_API_KEY</code> environment variable.</li>
+          <li>Optional: set <code>SECRET_KEY</code> for session security.</li>
+          <li>Install dependencies: <code>pip install -r requirements.txt</code>.</li>
+          <li>Start the server: <code>flask --app app run --host 0.0.0.0 --port 5000</code>.</li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
